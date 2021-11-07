@@ -1,0 +1,81 @@
+
+#include <bits/stdc++.h>
+using namespace std;
+
+// Function to find maximum
+// length of normal substrings
+int maxNormalSubstring(string& P, string& Q,
+					int K, int N)
+{
+
+	if (K == 0)
+		return 0;
+
+	// keeps count of normal characters
+	int count = 0;
+
+	// indexes of substring
+	int left = 0, right = 0;
+
+	// maintain length of longest substring
+	// with at most K normal characters
+	int ans = 0;
+
+	while (right < N) {
+
+		while (right < N && count <= K) {
+
+			// get position of character
+			int pos = P[right] - 'a';
+			if (Q[pos] == '0') {
+				if (count + 1 > K)
+
+					break;
+
+				else
+					count++;
+			}
+
+			right++;
+			if (count <= K)
+				ans = max(ans, right - left);
+		}
+
+		while (left < right) {
+
+			// get position of character
+			int pos = P[left] - 'a';
+
+			left++;
+
+			// check if character is
+			// normal then decrement count
+			if (Q[pos] == '0')
+
+				count--;
+
+			if (count < K)
+				break;
+		}
+	}
+
+	return ans;
+}
+
+// Driver code
+int main()
+{
+	
+	string P,Q;
+	cin>>P;
+	cin>>Q;
+
+	int K;
+	cin>>K;
+
+	int N = P.length();
+
+	cout << maxNormalSubstring(P, Q, K, N);
+
+	return 0;
+}
